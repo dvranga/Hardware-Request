@@ -1,18 +1,15 @@
 package com.hm.hardwareorderapp.service;
 
 import java.util.List;
+import java.util.Optional;
 
-import javax.validation.Valid;
-
-import com.hm.hardwareorderapp.dto.HardwareRequestDTO;
 import com.hm.hardwareorderapp.dto.LoginDTO;
 import com.hm.hardwareorderapp.model.HardwareRequest;
 
 public interface IHardwareRequestService {
 	
-	HardwareRequest updateStatusById(Integer id, HardwareRequestDTO hardwareRequestDTO);
+	Optional<HardwareRequest> updateStatusById(Integer id, String status);
 
-	List<HardwareRequest> updateRequestDetails(HardwareRequestDTO hardwareRequestDTO);
+	List<HardwareRequest> logIn(LoginDTO loginDTO);
 
-	List<HardwareRequest> logIn(@Valid LoginDTO loginDTO);
 }

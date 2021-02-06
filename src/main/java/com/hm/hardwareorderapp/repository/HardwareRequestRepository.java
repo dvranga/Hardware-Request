@@ -16,13 +16,12 @@ public interface HardwareRequestRepository extends JpaRepository<HardwareRequest
 	UserDetails findByUserId(int userId);
 
 	@Query(value = "select * from user_details ud join hw_request_order hro\r\n"
-			+ "on ud.user_id=hro.user_id and ud.email_address=:emailId",nativeQuery = true)
-	List<HardwareRequest> findByEmail(String emailId);
-
-
-	@Query(value = "select * from user_details ud join hw_request_order hro\r\n"
 			+ "on ud.user_id=hro.user_id and ud.manager=:manager",nativeQuery = true)
 	List<HardwareRequest> findManagerEmployees(int manager);
+
+	@Query(value = "select * from user_details ud join hw_request_order hro\r\n"
+			+ "on ud.user_id=hro.user_id and ud.user_id=:userId",nativeQuery = true)
+	List<HardwareRequest> findUserDetails(int userId);
 
 
 }

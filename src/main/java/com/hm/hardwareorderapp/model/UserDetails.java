@@ -23,7 +23,7 @@ public class UserDetails {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "user_id")
-	public int id;
+	public int userId;
 	
 	@Column(name = "user_name")
 	public String userName;
