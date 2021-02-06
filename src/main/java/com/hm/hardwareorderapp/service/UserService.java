@@ -33,7 +33,8 @@ public class UserService implements IUserService{
 			return findByEmail;
 		}
 		else {
-			return userRepository.findManagerEmployees(findByEmail.get(0).getManager());
+//			return userRepository.findManagerEmployees(findByEmail.get(0).getManager());
+			return null;
 		}
 		
 	}
