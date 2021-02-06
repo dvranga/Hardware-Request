@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.hm.hardwareorderapp.dto.HardwareRequestDTO;
+import com.hm.hardwareorderapp.dto.LoginDTO;
 import com.hm.hardwareorderapp.model.HardwareRequest;
 import com.hm.hardwareorderapp.model.UserDetails;
 import com.hm.hardwareorderapp.repository.HardwareRequestRepository;
@@ -23,25 +24,30 @@ public class HardwareRequestService implements IHardwareRequestService {
 	private UserRepository userRepository;
 	
 	@Override
-	public List<HardwareRequest> getAllRequests() {
-		List<HardwareRequest> requestList = hardwareRequestRepository.findAll();
-		if (requestList.isEmpty()) {
-			return null;
-		}
-		return requestList;
-	}
-
-	@Override
-	public Optional<UserDetails> getUserDataByUserId(Integer userId) {
-		return userRepository.findById(userId);
-	}
-	
-	@Override
 	public HardwareRequest updateStatusById(Integer id, HardwareRequestDTO hardwareRequestDTO) {
-		Optional<UserDetails> requestData = this.getUserDataByUserId(id);
+//		Optional<UserDetails> requestData = this.getUserDataByUserId(id);
 //		requestData.updateStatusById(hardwareRequestDTO);
 //		return hardwareRequestRepository.save(requestData);
 		return null;
+	}
+
+	@Override
+	public List<HardwareRequest> updateRequestDetails(HardwareRequestDTO hardwareRequestDTO) {
+		List<UserDetails> findByEmail = userRepository.findByEmail("sincy1@gmail.com");
+		HardwareRequest hardwareRequest= new HardwareRequest(hardwareRequestDTO, findByEmail.get(0));
+		return null;
+	}
+	
+	@Override
+	public List<HardwareRequest> logIn(LoginDTO loginDTO) {
+		List<UserDetails> findByEmail = userRepository.findByEmail(loginDTO.getEmailAddress());
+		if (findByEmail.get(0).getDesignation()!=3) {
+			return hardwareRequestRepository.findByEmail(findByEmail.get(0).getEmailAddress());
+		}
+		else {
+			return hardwareRequestRepository.findManagerEmployees(findByEmail.get(0).getManager());
+		}
+		
 	}
 
 }
