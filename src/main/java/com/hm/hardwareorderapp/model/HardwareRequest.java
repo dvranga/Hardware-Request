@@ -2,19 +2,22 @@ package com.hm.hardwareorderapp.model;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-
 import org.hibernate.annotations.CreationTimestamp;
 
 import com.hm.hardwareorderapp.dto.HardwareRequestDTO;
 
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
@@ -22,6 +25,7 @@ import lombok.ToString;
 @Table(name = "hw_request_order")
 @ToString
 @RequiredArgsConstructor
+@Data
 public class HardwareRequest {
 	
 	@Id
@@ -31,8 +35,9 @@ public class HardwareRequest {
 	@Column(name = "ami_id")
 	public int amiId;
 	
-	@Column(name = "user_id")
-	public int userId;
+	@ManyToOne(targetEntity = UserDetails.class, cascade = CascadeType.ALL)
+	@JoinColumn(name = "user_id", referencedColumnName = "user_id", nullable = false, updatable = false)
+	public UserDetails userDetails;
 	
 	@Column(name = "instance_id")
 	public int instanceId;
@@ -52,11 +57,12 @@ public class HardwareRequest {
 	
 	public String status;
 
-	public void updateStatusById(HardwareRequestDTO hardwareRequestDTO) {
+	public HardwareRequest(HardwareRequestDTO hardwareRequestDTO, UserDetails userDetails) {
+		this.amiId =  hardwareRequestDTO.amiId;
+		this.userDetails = userDetails;
+		this.instanceId = hardwareRequestDTO.instanceId;
+		this.userData = hardwareRequestDTO.userData;
 		this.status = hardwareRequestDTO.status;
-		// TODO Auto-generated method stub
-		
 	}
-
 
 }
